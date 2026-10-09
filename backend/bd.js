@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const databaseName = process.env.DB_NAME || 'fx_trading_app';
+const databaseName = process.env.DB_NAME || 'mysql:9';
 const connectionOptions = {
   host: process.env.DB_HOST || 'localhost',
   port: Number(process.env.DB_PORT || 3306),
@@ -20,8 +20,8 @@ export const pool = mysql.createPool({
 });
 
 export async function initializeDatabase() {
-  if (!/^[a-zA-Z0-9_]+$/.test(databaseName)) {
-    throw new Error('DB_NAME may contain only letters, numbers, and underscores');
+  if (!/^[a-zA-Z0-9_:]+$/.test(databaseName)) {
+    throw new Error('DB_NAME may contain only letters, numbers, underscores, and colons');
   }
 
   const connection = await mysql.createConnection(connectionOptions);
